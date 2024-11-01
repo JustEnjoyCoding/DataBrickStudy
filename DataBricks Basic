@@ -1,0 +1,24 @@
+
+
+
+To Read file :
+
+df1=spark.read.option('header',True).csv('dbfs:/mnt/outputsource/oudata/employees9956.csv')
+display(df1)
+
+df=spark.read.options(header='True',sep=',',inferSchema='True').csv('dbfs:/mnt/inputsource/indata/employees.csv')
+display(df)
+
+df3=spark.read.format('CSV').option('header',True).load('dbfs:/mnt/inputsource/indata/employees.csv')
+display(df3)
+
+df4=spark.read.format('CSV').option('header',True).option('inferSchema',True).option('sep',',').load('dbfs:/mnt/inputsource/indata/employees.csv')
+display(df4)
+
+df4=spark.read.format('CSV').options(header=True,inferSchema=True,sep=',').load('dbfs:/mnt/inputsource/indata/employees.csv')
+display(df4)
+
+
+To write File :
+
+df.write.mode('overwrite').csv('dbfs:/mnt/outputsource/oudata/employees9956.csv')

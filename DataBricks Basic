@@ -21,6 +21,12 @@ To Read file :
           df2=spark.read.csv('dbfs:/mnt/inputsource/indata/employees.csv',header=True,inferSchema=True)
           display(df2)
 
+
+   Read Multiple CSV File :
+
+          df=spark.read.format('csv').option('header',True).load(['dbfs:/mnt/loaddata/in/Temp1.csv','dbfs:/mnt/loaddata/in/Temp2.csv'])
+          df=spark.read.format('csv').option('header',True).load('dbfs:/mnt/loaddata/in/')  // Only give upto folder name path  and change file format type according requirement.
+
     Parquet read
 
            df45=spark.read.option('header',True).parquet('dbfs:/mnt/outputsource/oudata/employees/')
@@ -73,4 +79,58 @@ df88=spark.read.schema(schema11).csv('dbfs:/mnt/outputsource/oudata/record/',hea
 display(df88)
 
 =========================================================================================================================================================
+
+withColumn :
+
+      ** withColumn is used to add new column and change existing column datatype
+
+        from pyspark.sql.functions import lit,cast
+        from pyspark.sql.types import IntegerType,StringType
+        
+        df=spark.read.csv('dbfs:/mnt/loaddata/in/Temp1.csv',header=True)
+        df=df.withColumn('Dan',lit('111'))                                  // Add new column with name Dan
+        df=df.withColumn('San',lit(df.ID*3))                                // Add new column with name San
+        df=df.withColumn('Man',lit(df.ID*2).cast(StringType()))             // Add new column with name Man  and change datatype
+        df=df.withColumn('Dan',df['Dan'].cast(IntegerType()))               // change datatype of existing column..
+        display(df)   
+
+withColumnRenamed : 
+
+    ** withColumnRenamed is used to change existing column name
+
+
+        df=df.withColumnRenamed('Man','Kan')                                // Existing column name renamed
+
+==========================================================================================================================================================
+filter :
+
+    from pyspark.sql.types import IntegerType,StringType
+    from pyspark.sql.functions import lit,cast,col
+    
+    df2=spark.read.csv('dbfs:/mnt/inputsource/indata/employees.csv',header=True)
+    df3=df2.withColumn('SALARY',df2.SALARY.cast(IntegerType()))                   // Add New column with datatype
+    display(df3)
+    # df4=df3.filter((df3.JOB_ID=='ST_MAN') & (df3.SALARY >=8000))               // Use fileter
+    df4=df3.filter((col('JOB_ID')=='ST_MAN') & (col('SALARY') >=8000))           // Use fileter with col
+    display(df4)
+
+=============================================================================================================================================================
+startswith,endswith,contains :
+
+    from pyspark.sql.functions import *
+    
+    
+    df2=spark.read.csv('dbfs:/mnt/inputsource/indata/employees.csv',header=True)
+    display(df2)
+    df3=df2.filter(df2.FIRST_NAME.startswith('D'))
+    df3=df2.filter(col('FIRST_NAME').startswith('D'))
+    
+    df3=df2.filter(df2.FIRST_NAME.endswith('d'))
+    df3=df2.filter(col('FIRST_NAME').endswith('d'))
+    
+    df3=df2.filter((col('FIRST_NAME').contains('d')) & (col('PHONE_NUMBER').contains(423)))
+    
+    display(df3)
+===============================================================================================================================================================
+
 

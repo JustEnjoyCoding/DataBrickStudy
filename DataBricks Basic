@@ -128,9 +128,50 @@ startswith,endswith,contains :
     df3=df2.filter(df2.FIRST_NAME.endswith('d'))
     df3=df2.filter(col('FIRST_NAME').endswith('d'))
     
-    df3=df2.filter((col('FIRST_NAME').contains('d')) & (col('PHONE_NUMBER').contains(423)))
+    df3=df2.filter((col('FIRST_NAME').contains('d')) & (col('PHONE_NUMBER').contains(423)))   // with col
     
     display(df3)
 ===============================================================================================================================================================
+isin :
+
+        from pyspark.sql.functions import *
+        df3=spark.read.csv('dbfs:/mnt/inputsource/indata/employees.csv',header=True)
+        # display(df3)
+        df4=df3.filter(df3.JOB_ID.isin('SH_CLERK','IT_PROG'))
+        df4=df3.filter(col('JOB_ID').isin('SH_CLERK','IT_PROG'))    // with col
+        display(df4)
+
+================================================================================================================================================================
+select :
+
+                from pyspark.sql.functions import *
+                df3=spark.read.csv('dbfs:/mnt/inputsource/indata/employees.csv',header=True)
+                #display(df3)
+                df4=df3.select('FIRST_NAME','LAST_NAME')
+                df4=df3.select('SALARY',(df3.SALARY*2).alias('Updated_SALARY'))
+                df4=df3.select('SALARY',(col('SALARY')*2).alias('Updated_SALARY'))
+                
+                display(df4)
 
 
+====================================================================================================================================================================
+ 
+ when ...otherwise  :
+
+            
+            from pyspark.sql.functions import *
+            df3=spark.read.csv('dbfs:/mnt/inputsource/indata/employees.csv',header=True)
+            df4=df3.filter(df3.JOB_ID.isin('SH_CLERK','IT_PROG'))
+            # display(df4)
+            df5=df4.select('JOB_ID','SALARY',when(df4.JOB_ID=='SH_CLERK',(df4.SALARY+100))
+                       .when(df4.JOB_ID=='IT_PROG',(df4.SALARY+200))
+                       .otherwise(50).alias('UpdatedSalary')
+                       )
+            
+            df5=df4.withColumn('UpdatedSalary',when(df4.JOB_ID=='SH_CLERK',(df4.SALARY+100))
+                       .when(df4.JOB_ID=='IT_PROG',(df4.SALARY+200))
+                       .otherwise(50)
+                       )
+            display(df5.select('JOB_ID','SALARY','UpdatedSalary'))
+
+======================================================================================================================================================================

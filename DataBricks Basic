@@ -1,24 +1,76 @@
 
-
-
 To Read file :
 
-df1=spark.read.option('header',True).csv('dbfs:/mnt/outputsource/oudata/employees9956.csv')
-display(df1)
+    CSV read
 
-df=spark.read.options(header='True',sep=',',inferSchema='True').csv('dbfs:/mnt/inputsource/indata/employees.csv')
-display(df)
+          df1=spark.read.option('header',True).csv('dbfs:/mnt/outputsource/oudata/employees9956.csv')
+          display(df1)
+          
+          df=spark.read.options(header='True',sep=',',inferSchema='True').csv('dbfs:/mnt/inputsource/indata/employees.csv')
+          display(df)
+          
+          df3=spark.read.format('CSV').option('header',True).load('dbfs:/mnt/inputsource/indata/employees.csv')
+          display(df3)
+          
+          df4=spark.read.format('CSV').option('header',True).option('inferSchema',True).option('sep',',').load('dbfs:/mnt/inputsource/indata/employees.csv')
+          display(df4)
+          
+          df4=spark.read.format('CSV').options(header=True,inferSchema=True,sep=',').load('dbfs:/mnt/inputsource/indata/employees.csv')
+          display(df4)
+          
+          df2=spark.read.csv('dbfs:/mnt/inputsource/indata/employees.csv',header=True,inferSchema=True)
+          display(df2)
 
-df3=spark.read.format('CSV').option('header',True).load('dbfs:/mnt/inputsource/indata/employees.csv')
-display(df3)
+    Parquet read
 
-df4=spark.read.format('CSV').option('header',True).option('inferSchema',True).option('sep',',').load('dbfs:/mnt/inputsource/indata/employees.csv')
-display(df4)
-
-df4=spark.read.format('CSV').options(header=True,inferSchema=True,sep=',').load('dbfs:/mnt/inputsource/indata/employees.csv')
-display(df4)
-
+           df45=spark.read.option('header',True).parquet('dbfs:/mnt/outputsource/oudata/employees/')
+           display(df45)
 
 To write File :
 
-df.write.mode('overwrite').csv('dbfs:/mnt/outputsource/oudata/employees9956.csv')
+         Write CSV :
+
+             df.write.mode('overwrite').csv('dbfs:/mnt/outputsource/oudata/employees9956.csv')
+    
+             df6.write.mode('overwrite').csv('dbfs:/mnt/outputsource/oudata/employees.csv',header=True)
+
+         Write Parquet :
+
+             df12.write.option('header',True).parquet('dbfs:/mnt/outputsource/oudata/employees/')
+
+=========================================================================================================================================
+
+
+from pyspark.sql.types import StructType,StructField,StringType,IntegerType
+
+schema=StructType([
+StructField('id',IntegerType(),True),
+StructField('firstname',StringType(),True),
+StructField('lastname',StringType(),True)
+])
+
+data=[
+(1,'Ramesh','Chavan'),
+(2,'Kunal','Patil'),
+(3,'Pranav','Patil')
+]
+
+df=spark.createDataFrame(data,schema)
+df.coalesce(1).write.csv('dbfs:/mnt/outputsource/oudata/record/',header=True)
+
+======================================================================================================================================================
+
+from pyspark.sql.types import StructType,StructField,StringType,IntegerType
+
+schema11=StructType([
+StructField('id',IntegerType(),True),
+StructField('firstname',StringType(),True),
+StructField('lastname',StringType(),True)
+])
+
+
+df88=spark.read.schema(schema11).csv('dbfs:/mnt/outputsource/oudata/record/',header=True)
+display(df88)
+
+=========================================================================================================================================================
+

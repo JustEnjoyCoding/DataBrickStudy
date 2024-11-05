@@ -1,1 +1,33 @@
 
+Join Types:
+
+from pyspark.sql import SparkSession 
+spark = SparkSession.builder.appName('sparkdf').getOrCreate() 
+data = [["1", "sravan", "company 1"], 
+        ["2", "ojaswi", "company 1"],  
+        ["3", "rohith", "company 2"], 
+        ["4", "sridevi", "company 1"],  
+        ["5", "bobby", "company 1"]] 
+
+columns = ['ID', 'NAME', 'Company'] 
+
+data1 = [["1", "45000", "IT"], 
+         ["2", "145000", "Manager"], 
+         ["6", "45000", "HR"], 
+         ["5", "34000", "Sales"]] 
+
+columns1 = ['ID', 'salary', 'department'] 
+
+dataframe = spark.createDataFrame(data, columns) 
+
+dataframe1 = spark.createDataFrame(data1, columns1)
+
+dataframe.display()
+dataframe1.display()
+
+dataframe.join(dataframe1,dataframe.ID==dataframe1.ID,'inner').display()
+dataframe.join(dataframe1,dataframe.ID==dataframe1.ID,'outer').display()
+dataframe.join(dataframe1,dataframe.ID==dataframe1.ID,'left').display()
+dataframe.join(dataframe1,dataframe.ID==dataframe1.ID,'right').display()
+dataframe.join(dataframe1,dataframe.ID==dataframe1.ID,'semi').display()
+dataframe.join(dataframe1,dataframe.ID==dataframe1.ID,'anti').display()

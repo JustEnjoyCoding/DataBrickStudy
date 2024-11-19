@@ -7,3 +7,7 @@ S3_Bucket='masterdemo'
 Mount_Name='/mnt/mnt_Demodatatest'
 Source_URL= "s3a://%s:%s@%s" %(ACCESS_KEY,Encrypeted_ACCESS_KEY,S3_Bucket)
 dbutils.fs.mount(Source_URL,Mount_Name)
+
+
+file_path='dbfs:/mnt/mnt_Demodatatest/machine-readable-business-employment-data-Jun-2024-quarter.csv';
+df3=spark.read.format('csv').option('header',True).option('inferSchema',True).load(file_path)

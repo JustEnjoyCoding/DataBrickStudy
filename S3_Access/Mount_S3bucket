@@ -1,0 +1,9 @@
+import urllib
+aws_key_df=spark.read.format('csv').option('header',True).option('inferSchema',True).load('dbfs:/FileStore/shared_uploads/vinith9598@gmail.com/rootkey.csv')
+ACCESS_KEY=aws_key_df.select('Access key ID').take(1)[0]['Access key ID']
+SECRETE_ACCESS_KEY=aws_key_df.select('Secret access key').take(1)[0]['Secret access key']
+Encrypeted_ACCESS_KEY=urllib.parse.quote(string=SECRETE_ACCESS_KEY,safe="")
+S3_Bucket='masterdemo'
+Mount_Name='/mnt/mnt_Demodatatest'
+Source_URL= "s3a://%s:%s@%s" %(ACCESS_KEY,Encrypeted_ACCESS_KEY,S3_Bucket)
+dbutils.fs.mount(Source_URL,Mount_Name)

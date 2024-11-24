@@ -1,0 +1,24 @@
+df=spark.read.format('csv').option('inferSchema',True).option('header',True).option('sep',',').load('dbfs:/mnt/mnt_Demodatatest/employees.csv')
+df.display()
+df.filter(df.EMAIL=='DOCONNEL').display()
+df.filter((df.EMAIL=='DOCONNEL') & (df.DEPARTMENT_ID==50)).display()
+df.filter((df.LAST_NAME=='Hartstein') | (df.PHONE_NUMBER=='515.123.8888')).display()
+df.filter(df.EMPLOYEE_ID ==204).display()
+df.filter(df.EMPLOYEE_ID <=204).display()
+df.filter(df.EMPLOYEE_ID >=204).display()
+
+df.filter(df.PHONE_NUMBER.contains('515.123.8888')).display()
+# Not Contains
+df.filter(~df.PHONE_NUMBER.contains('515.123.8888')).display()  
+
+df.filter(df.LAST_NAME.startswith('Grant')).display()   
+df.filter(df.EMAIL.endswith('LPOPP')).display()   
+df.filter(df.EMAIL.isin('PFAY','DGRANT','JWHALEN')).display() 
+# This is used for not in 
+df.filter(~df.EMAIL.isin('PFAY','DGRANT','JWHALEN')).display() 
+# by using arry
+df.filter(df.EMAIL.isin(['PFAY','DGRANT','JWHALEN'])).display() 
+
+df.filter(df.EMAIL.like('HBAER')).display() 
+df.filter(df.EMAIL.isNull()).display() 
+df.filter(df.EMAIL.isNotNull()).display() 

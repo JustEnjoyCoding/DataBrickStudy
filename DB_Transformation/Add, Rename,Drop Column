@@ -12,3 +12,8 @@ df.withColumn('FullName',concat(df.FIRST_NAME,lit(' '),df.LAST_NAME)).withColumn
 # This code is used to change column type
 df2=df.withColumn('MANAGER_ID',df.MANAGER_ID.cast(IntegerType()))
 df2.display()
+
+
+## This code is used to change column name
+df.select(df.JOB_ID).display()  
+df.select(df.JOB_ID.alias('JOB_ID123')).display()

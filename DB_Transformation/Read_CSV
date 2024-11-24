@@ -1,0 +1,11 @@
+## This code is used to read csv file :
+
+df=spark.read.format('csv').option('inferSchema',True).option('header',True).option('sep',',').load('dbfs:/mnt/mnt_Demodatatest/employees.csv')
+df=spark.read.format('csv').options(inferSchema=True,header=True,sep=',').load('dbfs:/mnt/mnt_Demodatatest/employees.csv')
+
+## This code is used to read multiple file :
+df=spark.read.format('csv').options(inferSchema=True,header=True,sep=',').load(['dbfs:/mnt/mnt_Demodatatest/employees.csv','dbfs:/mnt/mnt_Demodatatest/employees2.csv'])
+
+## This code is used to read all files of folder :
+df=spark.read.format('csv').options(inferSchema=True,header=True,sep=',').load(['dbfs:/mnt/mnt_Demodatatest/']) 
+df.display()

@@ -1,0 +1,13 @@
+from pyspark.sql.functions import *
+from pyspark.sql.types import *
+
+df=spark.read.format('csv').option('inferSchema',True).option('header',True).option('sep',',').load('dbfs:/mnt/mnt_Demodatatest/employees.csv')
+df.display()
+df.withColumnRenamed('FIRST_NAME','Name').display()
+df.withColumn('FullName',concat(df.FIRST_NAME,lit(' '),df.LAST_NAME)).display()
+df.drop(df.EMPLOYEE_ID).display()
+df.withColumn('FullName',concat(df.FIRST_NAME,lit(' '),df.LAST_NAME)).withColumn('USalary',df.SALARY*2).display()
+
+# This code is used to change column type
+df2=df.withColumn('MANAGER_ID',df.MANAGER_ID.cast(IntegerType()))
+df2.display()

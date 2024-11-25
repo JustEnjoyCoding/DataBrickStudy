@@ -1,0 +1,2 @@
+df.sort(df.name,df.age).display()
+df.orderBy(df.name,df.age).display()

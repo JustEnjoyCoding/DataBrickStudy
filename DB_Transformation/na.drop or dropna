@@ -1,0 +1,9 @@
+students_df.na.drop('all')
+students_df.na.drop('any')
+students_df.na.drop(subset=['physicsmarks','chemistrymarks'])
+students_df.dropna(subset=['totalmarks'])
+
+
+
+
+  But this code is not working

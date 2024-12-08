@@ -1,0 +1,10 @@
+students_df.na.fill(0).display()
+
+students_df.fillna(0).display()
+
+students_df.fillna('NA').display()
+
+students_df.fillna({'physicsmarks':0,'chemistrymarks':0,'mobile_no':'NA','totalmarks':0,'mathsmarks':0}).display()
+
+
+

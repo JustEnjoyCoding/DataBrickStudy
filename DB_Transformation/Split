@@ -1,0 +1,9 @@
+
+from pyspark.sql.functions import *
+from pyspark.sql.types import *
+
+data = [("John,Doe,35",), ("Jane,Smith,28",), ("Alice,Johnson,45",)]
+columns = ["info"]
+df = spark.createDataFrame(data, columns)
+
+df.withColumn('Fnam',split(df.info,',').getItem(0)).withColumn('Lnam',split(df.info,',').getItem(1)).withColumn('Age',split(df.info,',').getItem(2).cast(IntegerType())).display()

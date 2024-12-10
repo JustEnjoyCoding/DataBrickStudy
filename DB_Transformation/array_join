@@ -1,0 +1,2 @@
+df1=df.withColumn('Fname',split(df.info,','))   #.display()
+df2=df1.withColumn('Ajoin',array_join(df1.Fname,',')).display()

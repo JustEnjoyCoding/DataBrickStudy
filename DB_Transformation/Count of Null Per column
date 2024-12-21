@@ -1,0 +1,6 @@
+from pyspark.sql.functions import *
+
+## This code is used to count of null vlaue per column in datafarme.
+
+result = df.select([count(when(col(c).isNull(),c)).alias(c) for c in df.columns])
+

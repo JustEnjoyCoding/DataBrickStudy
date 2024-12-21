@@ -4,3 +4,4 @@ from pyspark.sql.functions import *
 
 result = df.select([count(when(col(c).isNull(),c)).alias(c) for c in df.columns])
 
+result = df.select([count(when(col(c).isNull(),1)).alias(c) for c in df.columns])
